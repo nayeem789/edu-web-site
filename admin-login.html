@@ -106,7 +106,7 @@
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
 
-      const formattedEmail = username.includes('@') ? username : `${username}@englishbox.com`;
+      const formattedEmail = username.includes('@') ? username : `${username}@gmail.com`;
 
       firebase.auth().signInWithEmailAndPassword(formattedEmail, password)
         .then((userCredential) => {
