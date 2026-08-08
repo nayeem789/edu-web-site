@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Borrowing a Book Dialogue for HSC | English Box</title>
+  <meta name="description" content="Dialogue about borrowing a book from college library for HSC examinees.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <h2 id="categoryTitle" style="text-align: center; margin-bottom: 20px;">HSC DIALOGUES</h2>
+
+    <div id="topicsContainer" class="topics-list-container">
+      <div class="topic-box-item" id="topic-item-205" onclick="handleTopicClick(this, 'Borrowing a Book Dialogue for HSC', `Rafi: Good morning, Shafiq. Where are you going in such a hurry?\nShafiq: Good morning, Rafi. I am going to the college library to borrow a book.\nRafi: What kind of book are you looking for?\nShafiq: I am looking for a book on English literature. I need it for my upcoming examination.\nRafi: Have you checked the catalogue of the library?\nShafiq: Yes, I have. I found a book that seems very useful for my preparation.\nRafi: Do you know the procedure for borrowing a book?\nShafiq: Yes. First, I have to show my library card to the librarian and give the necessary information.\nRafi: How many books can you borrow at a time?\nShafiq: I can borrow two books at a time according to the library rules.\nRafi: How long can you keep the book?\nShafiq: I can keep it for two weeks. I have to return it within the given time.\nRafi: What will happen if you return the book late?\nShafiq: I will have to pay a fine for each extra day.\nRafi: You should also take proper care of the book.\nShafiq: Of course. I will not fold the pages or write anything on them.\nRafi: That's good. Books are valuable sources of knowledge.\nShafiq: I agree. A good book can help us gain knowledge and develop our ideas.\nRafi: Shall I come with you to the library?\nShafiq: Certainly. You can also borrow a book that you need.\nRafi: Great! Let's go together.\nShafiq: Sure. Thank you.`)">
+        <span class="topic-num">01.</span>
+        <span class="topic-title-text">Borrowing a Book Dialogue for HSC</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 25px;">
+      <a href="../index.html" class="btn-back" style="text-decoration: none; background: #0b4f50; color: white; padding: 10px 20px; border-radius: 6px; font-weight: bold;">← Back to Home</a>
+    </div>
+  </div>
+
+  <div id="contentModal" class="modal-overlay" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle"></h3>
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p id="modalBody" style="white-space: pre-line;"></p>
+      </div>
+      <div class="modal-footer">
+        <button onclick="downloadAsPDF()" class="pdf-btn">Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const highlightId = urlParams.get("highlight");
+      if (highlightId) {
+        setTimeout(() => {
+          const targetElement = document.getElementById(`topic-item-${highlightId}`);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetElement.classList.add("highlighted-topic");
+          }
+        }, 250);
+      }
+    });
+  </script>
+</body>
+</html>

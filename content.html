@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONTENT COLLECTION | ENGLISH BOX</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+  (function(){
+    emailjs.init("PQfU3NMfRNkSGP7zl");
+  })();
+  </script>
+
+  <!-- PDF জেনারেটর -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    /* পপআপ ও ব্লার ইফেক্ট */
+    .custom-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+    }
+
+    .custom-modal-box {
+      background: #ffffff;
+      width: 90%;
+      max-width: 650px;
+      max-height: 85vh;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .custom-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 12px;
+      margin-bottom: 15px;
+    }
+
+    .custom-modal-header h3 {
+      margin: 0;
+      color: #0b4f50;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .custom-close-btn {
+      font-size: 30px;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .custom-close-btn:hover { color: #000; }
+
+    .custom-modal-body {
+      overflow-y: auto;
+      padding-right: 10px;
+      max-height: 60vh;
+    }
+
+    .custom-dialogue-text {
+      white-space: pre-line;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #2c3e50;
+      margin: 0;
+    }
+
+    .custom-modal-footer {
+      margin-top: 15px;
+      padding-top: 12px;
+      border-top: 2px solid #eee;
+      text-align: right;
+    }
+
+    .custom-pdf-btn {
+      background: #0b4f50;
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .custom-pdf-btn:hover { background: #083839; }
+
+    .highlighted-topic {
+      border: 2px solid #0b4f50 !important;
+      background-color: #eaf4f4 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section with Search Box -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo">ENGLISH BOX</div>
+      <ul class="nav-links">
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="content.html?type=story">1ST PAPER ▾</a></li>
+        <li><a href="content.html?type=paragraph">2ND PAPER ▾</a></li>
+        <li><a href="content.html?type=grammar">GRAMMAR</a></li>
+      </ul>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <svg class="search-icon-left" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" id="searchInput" placeholder="Search..." oninput="checkSearch()" onkeyup="searchTopics()">
+      <span id="clearBtn" onclick="clearSearch()" style="display:none; cursor:pointer; font-weight:bold;">&times;</span>
+      <div id="searchDropdown" class="search-results-dropdown">
+        <ul id="searchResultsList"></ul>
+      </div>
+    </div>
+
+    <div class="mobile-menu-icon">☰</div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <div class="main-wrapper">
+    <h2 id="categoryTitle" style="text-align: center; margin-bottom: 25px;">CONTENT COLLECTION</h2>
+
+    <div id="topicsContainer" class="topics-list-container">
+      <!-- script.js থেকে অটো ডায়নামিকালি ডায়লগ ও কন্টেন্ট এখানে লোড হবে -->
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="index.html" class="btn-back" style="text-decoration: none; background: #0b4f50; color: white; padding: 12px 24px; border-radius: 6px; font-weight: bold; display: inline-block;">← Back to Home</a>
+    </div>
+  </div>
+
+  <!-- ব্লার ব্যাকগ্রাউন্ড পপআপ মোডাল -->
+  <div id="contentModal" class="custom-modal-overlay">
+    <div class="custom-modal-box">
+      <div class="custom-modal-header">
+        <h3 id="modalTitle">Title</h3>
+        <span class="custom-close-btn" onclick="closePopup()">&times;</span>
+      </div>
+      <div class="custom-modal-body">
+        <p class="custom-dialogue-text" id="modalBody"></p>
+      </div>
+      <div class="custom-modal-footer">
+        <button onclick="downloadPDF()" class="custom-pdf-btn">Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

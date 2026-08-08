@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="google-site-verification" content="hnnncZ5eG3qCI2rAflhvlhKS-cUgrgZ2oDXTR3nO-o4" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENGLISH BOX</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+  (function(){
+    emailjs.init("PQfU3NMfRNkSGP7zl");
+  })();
+  </script>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.82 9L12 4.54 20.18 9 12 13.46 3.82 9zM5 14.25v2.81c0 2.36 4.03 4.25 9 4.25s9-1.89 9-4.25v-2.81c-1.89 1.48-5.18 2.44-9 2.44s-7.11-.96-9-2.44z"/></svg>
+        ENGLISH BOX
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="content.html?type=story">1ST PAPER ▾</a></li>
+        <li><a href="content.html?type=paragraph">2ND PAPER ▾</a></li>
+        <li><a href="content.html?type=grammar">GRAMMAR</a></li>
+        <li><a href="#request-section">REQUEST POST</a></li>
+      </ul>
+    </div>
+
+    <!-- Search Box with Glassmorphism Dropdown -->
+    <div class="search-box">
+      <svg class="search-icon-left" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" id="searchInput" placeholder="Search..." oninput="checkSearch()" onkeyup="searchTopics()">
+      <span id="clearBtn" onclick="clearSearch()" style="display:none;">&times;</span>
+      <div id="searchDropdown" class="search-results-dropdown">
+        <ul id="searchResultsList"></ul>
+      </div>
+    </div>
+
+    <div class="mobile-menu-icon">☰</div>
+  </header>
+
+  <!-- Banner Section (Original PC & Mobile Fixed Layout) -->
+<div class="welcome-hero-banner">
+  <div class="banner-text">
+    <h2>WELCOME TO ENGLISH BOX: MASTER ENGLISH!</h2>
+    <p>Tailored English learning platform for Bangladeshi students.</p>
+  </div>
+  <div class="banner-class-selection">
+    <span class="selection-label">Class Selection</span>
+    <div class="class-pill-container">
+      <div class="pill-slider"></div>
+      <button class="toggle-pill" id="pill-c79" onclick="selectClass('c79')">7-9</button>
+      <button class="toggle-pill active" id="pill-ssc" onclick="selectClass('ssc')">SSC</button>
+      <button class="toggle-pill" id="pill-hsc" onclick="selectClass('hsc')">HSC</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Main Content Layout -->
+  <div class="main-container">
+    <div class="cards-grid">
+      
+      <!-- Card 1 -->
+      <div class="card">
+        <div class="card-title-top">ENGLISH 1ST PAPER - STORIES</div>
+        <div class="card-media">
+          <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+        </div>
+        <div class="card-inner-header">STORY WRITING</div>
+        <ul class="item-list" id="story-list"></ul>
+        <a href="content.html?type=story" class="view-all-btn">VIEW ALL ➔</a>
+      </div>
+
+      <!-- Card 2 (DIALOGUES - নতুন ফাইলগুলোর সাথে সরাসরি কানেক্ট করা হয়েছে) -->
+      <div class="card">
+        <div class="card-title-top">ENGLISH 1ST PAPER - DIALOGUES</div>
+        <div class="card-media">
+          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+        </div>
+        <div class="card-inner-header">DIALOGUE WRITING</div>
+        <ul class="item-list" id="dialogue-list">
+          <li><a href="dialogues/aim-in-life-class-7-9.html?autoOpen=true">01. Aim in Life Dialogue (Class 7-9)</a></li>
+          <li><a href="dialogues/tree-plantation-class-7-9.html?autoOpen=true">02. Tree Plantation Dialogue (Class 7-9)</a></li>
+          <li><a href="dialogues/importance-of-english-ssc.html?autoOpen=true">03. Importance of Learning English (SSC)</a></li>
+          <li><a href="dialogues/future-plan-ssc.html?autoOpen=true">04. Future Plan Dialogue (SSC)</a></li>
+          <li><a href="dialogues/borrowing-book-hsc.html?autoOpen=true">05. Borrowing a Book Dialogue (HSC)</a></li>
+        </ul>
+        <a href="content.html?type=dialogue" class="view-all-btn">VIEW ALL ➔</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <div class="card-title-top">ENGLISH 2ND PAPER - PARAGRAPHS</div>
+        <div class="card-media">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        </div>
+        <div class="card-inner-header">PARAGRAPH SECTION</div>
+        <ul class="item-list" id="paragraph-list"></ul>
+        <a href="content.html?type=paragraph" class="view-all-btn">VIEW ALL ➔</a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card">
+        <div class="card-title-top">ENGLISH 2ND PAPER - COMPOSITIONS</div>
+        <div class="card-media">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        </div>
+        <div class="card-inner-header">COMPOSITION / ESSAY</div>
+        <ul class="item-list" id="composition-list"></ul>
+        <a href="content.html?type=composition" class="view-all-btn">VIEW ALL ➔</a>
+      </div>
+
+    </div>
+
+    <!-- Right Sidebar -->
+    <aside class="sidebar">
+      <div class="widget">
+        <h3>TRENDING POSTS</h3>
+        <div class="trending-item">
+          <div class="trending-thumb"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+          <div class="trending-info"><strong>ENGLISH 1ST PAPER</strong><small>5 hours ago</small></div>
+        </div>
+      </div>
+
+      <div class="widget request-form" id="request-section">
+        <h3>REQUEST TOPIC</h3>
+        <form id="topicForm" onsubmit="handleFormSubmit(event)">
+          <input type="text" id="reqName" placeholder="Name" required>
+          <input type="email" id="reqEmail" placeholder="Email" required>
+          <input type="text" id="reqPhone" placeholder="Phone">
+          <textarea id="reqMessage" placeholder="Message" rows="2" required></textarea>
+          <button type="submit">SUBMIT</button>
+        </form>
+      </div>
+    </aside>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
