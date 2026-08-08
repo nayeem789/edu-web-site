@@ -17,7 +17,6 @@
       min-height: 100vh;
       flex-direction: row;
     }
-    /* Mobile Overlay Menu Toggle Button */
     .menu-toggle {
       display: none;
       background: #2c3e50;
@@ -28,7 +27,6 @@
       cursor: pointer;
       border-radius: 5px;
     }
-    /* Sidebar Styling */
     .sidebar {
       width: 250px;
       background: #2c3e50;
@@ -56,7 +54,6 @@
     .sidebar ul li:hover, .sidebar ul li.active {
       background: #3498db;
     }
-    /* Main Content Area */
     .main-content {
       flex: 1;
       padding: 20px;
@@ -80,7 +77,6 @@
       border-radius: 5px;
       cursor: pointer;
     }
-    /* Analytics Stats Cards */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -100,7 +96,7 @@
       margin-bottom: 8px;
     }
     .stat-card h2 {
-      font-size: 24px;
+      font-size: 28px;
       color: #2c3e50;
     }
 
@@ -118,7 +114,6 @@
       display: block;
     }
 
-    /* Mobile Responsive CSS */
     @media (max-width: 768px) {
       body {
         flex-direction: column;
@@ -166,26 +161,18 @@
       <!-- Live Visitor / Stats Cards -->
       <div class="stats-grid">
         <div class="stat-card" style="border-color: #2ecc71;">
-          <h4>Total Visitors</h4>
-          <h2>1,248</h2>
-        </div>
-        <div class="stat-card" style="border-color: #3498db;">
-          <h4>Today's Visitors</h4>
-          <h2>185</h2>
+          <h4>Real-time Visitors</h4>
+          <h2 id="live-visitor-count">0</h2>
         </div>
         <div class="stat-card" style="border-color: #f1c40f;">
           <h4>Total Posts</h4>
-          <h2>24</h2>
-        </div>
-        <div class="stat-card" style="border-color: #9b59b6;">
-          <h4>Ad Revenue</h4>
-          <h2>$0.00</h2>
+          <h2 id="total-posts-count">0</h2>
         </div>
       </div>
 
       <div class="card">
-        <h3>Quick Actions</h3>
-        <p style="margin-top: 10px; color: #555;">বাম পাশের মেনু থেকে যেকোনো অপশনে গিয়ে নোটিশ কিংবা পোস্ট আপডেট কর।</p>
+        <h3>Quick Overview</h3>
+        <p style="margin-top: 10px; color: #555;">তোর সাইটে এখন যেসব ভিজিটর আসছে রিয়েল-টাইমে তা ফায়ারবেসের মাধ্যমে ওপরে দেখা যাচ্ছে।</p>
       </div>
     </div>
 
@@ -193,7 +180,7 @@
     <div id="add-post" class="section-content">
       <div class="card">
         <h3>Add New Content</h3>
-        <p>নতুন পোস্ট যোগ করতে এখানে টাইটেল ও বিবরণ লিখবি।</p>
+        <p>নতুন পোস্ট যোগ করার জায়গা।</p>
       </div>
     </div>
 
@@ -218,16 +205,17 @@
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAHw9bhTTtZmjGTSh4-PBxbL67VcV0okf4",
       authDomain: "english-box-35257.firebaseapp.com",
+      databaseURL: "https://english-box-35257-default-rtdb.firebaseio.com",
       projectId: "english-box-35257",
       storageBucket: "english-box-35257.firebasestorage.app",
       messagingSenderId: "188594812365",
-      appId: "1:188594812365:web:8bc90c38b571ce9d948084",
-      measurementId: "G-T3NM4LT45S"
+      appId: "1:188594812365:web:8bc90c38b571ce9d948084"
     };
     
     firebase.initializeApp(firebaseConfig);
@@ -237,6 +225,13 @@
       if (!user) {
         window.location.href = "admin-login.html";
       }
+    });
+
+    // Real-time Visitor Listener from Firebase Database
+    const visitorCountElement = document.getElementById('live-visitor-count');
+    firebase.database().ref('analytics/total_visitors').on('value', (snapshot) => {
+      const count = snapshot.val() || 0;
+      visitorCountElement.innerText = count.toLocaleString();
     });
 
     // Logout Functionality
@@ -260,7 +255,6 @@
       document.getElementById(sectionId).classList.add('active');
       event.currentTarget.classList.add('active');
 
-      // Close menu on selection (for mobile)
       if (window.innerWidth <= 768) {
         document.getElementById('sidebar').classList.remove('open');
       }
