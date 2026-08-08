@@ -9,18 +9,32 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
       display: flex;
       background: #f4f6f9;
       min-height: 100vh;
+      flex-direction: row;
     }
+    /* Mobile Overlay Menu Toggle Button */
+    .menu-toggle {
+      display: none;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    /* Sidebar Styling */
     .sidebar {
       width: 250px;
       background: #2c3e50;
       color: #fff;
       padding: 20px;
+      transition: 0.3s;
     }
     .sidebar h2 {
       text-align: center;
@@ -42,9 +56,11 @@
     .sidebar ul li:hover, .sidebar ul li.active {
       background: #3498db;
     }
+    /* Main Content Area */
     .main-content {
       flex: 1;
-      padding: 30px;
+      padding: 20px;
+      width: 100%;
     }
     .header {
       display: flex;
@@ -64,6 +80,30 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    /* Analytics Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .stat-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border-left: 5px solid #3498db;
+    }
+    .stat-card h4 {
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .stat-card h2 {
+      font-size: 24px;
+      color: #2c3e50;
+    }
+
     .card {
       background: #fff;
       padding: 20px;
@@ -71,32 +111,108 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
       margin-bottom: 20px;
     }
+    .section-content {
+      display: none;
+    }
+    .section-content.active {
+      display: block;
+    }
+
+    /* Mobile Responsive CSS */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .sidebar {
+        width: 100%;
+        display: none;
+      }
+      .sidebar.open {
+        display: block;
+      }
+      .header {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- Sidebar Menu -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <h2>English Box Admin</h2>
     <ul>
-      <li class="active">📊 Dashboard</li>
-      <li>📝 Add Post</li>
-      <li>📢 Notice Board</li>
-      <li>💰 Ads Manager</li>
+      <li class="active" onclick="showSection('dashboard')">📊 Dashboard</li>
+      <li onclick="showSection('add-post')">📝 Add Post</li>
+      <li onclick="showSection('notice')">📢 Notice Board</li>
+      <li onclick="showSection('monetization')">💰 Ads Manager</li>
     </ul>
   </div>
 
   <!-- Main Content Area -->
   <div class="main-content">
     <div class="header">
-      <h3>Welcome to Admin Panel</h3>
+      <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+      <h3>Dashboard Overview</h3>
       <button class="logout-btn" id="logout-btn">Logout</button>
     </div>
 
-    <div class="card">
-      <h2>অভিনন্দন মামা! 🎉</h2>
-      <p style="margin-top: 10px;">তুই সফলভাবে Admin Dashboard-এ লগইন করে ফেলেছিস!</p>
+    <!-- 1. Dashboard Overview / Analytics Section -->
+    <div id="dashboard" class="section-content active">
+      <!-- Live Visitor / Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card" style="border-color: #2ecc71;">
+          <h4>Total Visitors</h4>
+          <h2>1,248</h2>
+        </div>
+        <div class="stat-card" style="border-color: #3498db;">
+          <h4>Today's Visitors</h4>
+          <h2>185</h2>
+        </div>
+        <div class="stat-card" style="border-color: #f1c40f;">
+          <h4>Total Posts</h4>
+          <h2>24</h2>
+        </div>
+        <div class="stat-card" style="border-color: #9b59b6;">
+          <h4>Ad Revenue</h4>
+          <h2>$0.00</h2>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Quick Actions</h3>
+        <p style="margin-top: 10px; color: #555;">বাম পাশের মেনু থেকে যেকোনো অপশনে গিয়ে নোটিশ কিংবা পোস্ট আপডেট কর।</p>
+      </div>
     </div>
+
+    <!-- 2. Add Post Section -->
+    <div id="add-post" class="section-content">
+      <div class="card">
+        <h3>Add New Content</h3>
+        <p>নতুন পোস্ট যোগ করতে এখানে টাইটেল ও বিবরণ লিখবি।</p>
+      </div>
+    </div>
+
+    <!-- 3. Notice Board -->
+    <div id="notice" class="section-content">
+      <div class="card">
+        <h3>Notice Board Control</h3>
+        <p>ওয়েবসাইটের নোটিশ পরিবর্তন করার জায়গা।</p>
+      </div>
+    </div>
+
+    <!-- 4. Ads Manager -->
+    <div id="monetization" class="section-content">
+      <div class="card">
+        <h3>Google AdSense Integration</h3>
+        <p>AdSense কোড বসানোর অপশন।</p>
+      </div>
+    </div>
+
   </div>
 
   <!-- Firebase Scripts -->
@@ -116,19 +232,39 @@
     
     firebase.initializeApp(firebaseConfig);
 
-    // সিকিউরিটি চেক: লগইন না থাকলে সরাসরি লগইন পেজে পাঠাবে
+    // Security Check
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
         window.location.href = "admin-login.html";
       }
     });
 
-    // লগআউট বাটন
+    // Logout Functionality
     document.getElementById('logout-btn').addEventListener('click', () => {
       firebase.auth().signOut().then(() => {
         window.location.href = "admin-login.html";
       });
     });
+
+    // Mobile Menu Toggle
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('open');
+    }
+
+    // Section Switcher
+    function showSection(sectionId) {
+      document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.sidebar ul li').forEach(li => li.classList.remove('active'));
+
+      document.getElementById(sectionId).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      // Close menu on selection (for mobile)
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    }
   </script>
 </body>
 </html>
