@@ -3,230 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - ENGLISH BOX</title>
+  <title>English Box Admin</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #f4f6f9;
       color: #333;
     }
-    /* ড্যাশবোর্ড লেআউট */
-    .dashboard-header {
-      background: #fff;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #ddd;
-    }
-    .main-container {
-      padding: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .stats-card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    /* পোস্ট কার্ড ডিজাইন */
-    .posts-section {
-      margin-top: 20px;
-    }
-    .post-card {
-      background: #fff;
+    .admin-header {
+      background: #2c3e50;
+      color: white;
       padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      margin-bottom: 15px;
-      border-left: 5px solid #007bff;
-    }
-    .post-card h4 {
-      margin: 0 0 8px 0;
-      color: #007bff;
-    }
-    .post-meta {
-      font-size: 12px;
-      color: #666;
-      margin-top: 10px;
-      display: flex;
-      gap: 15px;
-    }
-
-    /* নোটপ্যাড স্টাইল ফুল-স্ক্রিন এডিটর */
-    #noteEditorView {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #ffffff;
-      z-index: 9999;
-      flex-direction: column;
-      box-sizing: border-box;
-    }
-    .note-header {
-      display: flex;
-      align-items: center;
-      padding: 12px 15px;
-      border-bottom: 1px solid #e0e0e0;
-      background: #fff;
-    }
-    .note-header button {
-      background: none;
-      border: none;
+      text-align: center;
       font-size: 20px;
-      cursor: pointer;
-      color: #333;
-    }
-    .note-header input {
-      border: none;
-      outline: none;
-      font-size: 18px;
-      width: 100%;
-      margin-left: 12px;
-      font-weight: 500;
-    }
-    .note-toolbar-top {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      background: #f8f9fa;
-      padding: 10px 15px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .pill-group {
-      display: flex;
-      gap: 5px;
-      background: #e9ecef;
-      padding: 3px;
-      border-radius: 20px;
-    }
-    .pill-btn {
-      background: transparent;
-      border: none;
-      padding: 5px 12px;
-      border-radius: 15px;
-      font-size: 12px;
       font-weight: bold;
-      cursor: pointer;
-      color: #555;
     }
-    .pill-btn.active {
-      background: #007bff;
-      color: #fff;
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 15px;
+      background: #34495e;
     }
-    .publish-btn {
-      background: #28a745;
+    .nav-btn {
+      background: #2980b9;
       color: white;
       border: none;
-      padding: 6px 18px;
-      border-radius: 20px;
-      font-weight: bold;
+      padding: 12px;
+      text-align: left;
+      font-size: 16px;
+      border-radius: 5px;
       cursor: pointer;
-      margin-left: auto;
+      font-weight: bold;
+    }
+    .nav-btn.active {
+      background: #3498db;
+    }
+    .main-content {
+      padding: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    .visitor-card {
+      border-left: 5px solid #2ecc71;
+    }
+    .posts-card {
+      border-left: 5px solid #f1c40f;
+    }
+    .card h3 {
+      margin: 0 0 5px 0;
+      color: #555;
+      font-size: 15px;
+    }
+    .card .number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2c3e50;
+      margin: 0;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
       font-size: 14px;
     }
-    .note-toolbar-bottom {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-      padding: 8px 15px;
-      background: #fff;
-      border-bottom: 1px solid #e0e0e0;
-      overflow-x: auto;
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
     }
-    .note-toolbar-bottom button {
-      background: none;
+    textarea.form-control {
+      height: 120px;
+      resize: vertical;
+    }
+    .submit-btn {
+      background: #27ae60;
+      color: white;
       border: none;
+      padding: 12px;
+      width: 100%;
       font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px;
       cursor: pointer;
-      color: #444;
-      padding: 4px;
     }
-    #noteContent {
-      flex-grow: 1;
-      outline: none;
-      font-size: 16px;
-      line-height: 1.6;
-      padding: 15px;
-      overflow-y: auto;
+    .submit-btn:hover {
+      background: #219653;
+    }
+    .published-post-card {
       background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      margin-bottom: 12px;
+      border-left: 5px solid #3498db;
+    }
+    .published-post-card h4 {
+      margin: 0 0 5px 0;
+      color: #2980b9;
     }
   </style>
 </head>
 <body>
 
-  <!-- ড্যাশবোর্ড হেডার ও রিয়েল-টাইম ভিজিটর ওভারভিউ -->
-  <div class="dashboard-header">
-    <h2>Admin Dashboard</h2>
-    <div id="visitorCounter" style="background: #e3f2fd; padding: 6px 12px; border-radius: 15px; font-weight: bold; font-size: 14px; color: #0d47a1;">
-      👥 Real-time Visitors: <span id="visitorCount">1</span>
-    </div>
+  <div class="admin-header">English Box Admin</div>
+
+  <div class="nav-menu">
+    <button class="nav-btn active" id="btnDashboard" onclick="switchTab('dashboard')">📊 Dashboard</button>
+    <button class="nav-btn" id="btnAddPost" onclick="switchTab('addPost')">📝 Add Post</button>
+    <button class="nav-btn" id="btnNotice" onclick="switchTab('notice')">📢 Notice Board</button>
+    <button class="nav-btn" id="btnAds" onclick="switchTab('ads')">💰 Ads Manager</button>
   </div>
 
-  <div class="main-container">
-    <!-- নতুন পোস্ট যোগ করার কার্ড -->
-    <div class="stats-card">
-      <div>
-        <h3>Add New Content</h3>
-        <p style="margin: 0; color: #666; font-size: 14px;">নোটপ্যাডের মতো লিখে সরাসরি ওয়েবসাইটে পাবলিশ করুন।</p>
-      </div>
-      <button onclick="openNoteEditor()" style="background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 15px;">Add New Content ➔</button>
-    </div>
-
-    <!-- পাবলিশ করা পোস্টগুলো কার্ড আকারে এখানে শো করবে -->
-    <div class="posts-section">
-      <h3>Published Posts List</h3>
-      <div id="adminPostsContainer">
-        <p style="color: #777;">লোড হচ্ছে...</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- নোটপ্যাড স্টাইল ফুল-স্ক্রিন এডিটর -->
-  <div id="noteEditorView">
-    <div class="note-header">
-      <button onclick="closeNoteEditor()">❮</button>
-      <input type="text" id="postTitle" placeholder="Title">
-    </div>
-
-    <div class="note-toolbar-top">
-      <div class="pill-group" id="categoryPills">
-        <button class="pill-btn active" onclick="selectCategory('Story', this)">Story</button>
-        <button class="pill-btn" onclick="selectCategory('Paragraph', this)">Paragraph</button>
-        <button class="pill-btn" onclick="selectCategory('Composition', this)">Composition</button>
-        <button class="pill-btn" onclick="selectCategory('Dialogue', this)">Dialogue</button>
+  <div class="main-content">
+    
+    <!-- Dashboard Tab -->
+    <div id="dashboardTab">
+      <div class="card visitor-card">
+        <h3>Real-time Visitors</h3>
+        <p class="number" id="visitorCount">1</p>
       </div>
 
-      <div class="pill-group" id="classPills">
-        <button class="pill-btn" onclick="selectClass('Class 7-9', this)">7-9</button>
-        <button class="pill-btn active" onclick="selectClass('SSC', this)">SSC</button>
-        <button class="pill-btn" onclick="selectClass('HSC', this)">HSC</button>
+      <div class="card posts-card">
+        <h3>Total Posts</h3>
+        <p class="number" id="totalPostsCount">0</p>
       </div>
 
-      <button class="publish-btn" onclick="publishNotePost()">Publish</button>
+      <div class="card">
+        <h3>Quick Overview</h3>
+        <p style="margin: 0; color: #666; font-size: 14px;">তোর সাইটে এখন যেসব ভিজিটর আসছে রিয়েল-টাইমে তা ফায়ারবেসের মাধ্যমে উপরে দেখা যাচ্ছে।</p>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <h3>Published Posts List</h3>
+        <div id="postsListContainer">
+          <p style="color: #777;">লোড হচ্ছে...</p>
+        </div>
+      </div>
     </div>
 
-    <div class="note-toolbar-bottom">
-      <button onclick="formatText('bold')" title="Bold"><b>B</b></button>
-      <button onclick="formatText('italic')" title="Italic"><i>I</i></button>
-      <button onclick="formatText('underline')" title="Underline"><u>U</u></button>
-      <button onclick="formatText('strikeThrough')" title="Strikethrough"><del>T</del></button>
-      <button onclick="formatText('insertOrderedList')" title="Numbered List">1≡</button>
-      <button onclick="formatText('insertUnorderedList')" title="Bullet List">•≡</button>
-      <button onclick="formatText('justifyLeft')" title="Align Left">≡</button>
+    <!-- Add Post Tab -->
+    <div id="addPostTab" style="display: none;">
+      <div class="card">
+        <h3 style="color: #2c3e50; font-size: 18px; margin-bottom: 15px;">Add New Post</h3>
+        
+        <div class="form-group">
+          <label>Post Title (যেমন: Aim in Life)</label>
+          <input type="text" id="postTitle" class="form-control" placeholder="টাইটেল লিখুন...">
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select id="postCategory" class="form-control">
+            <option value="Story">Story</option>
+            <option value="Paragraph">Paragraph</option>
+            <option value="Composition">Composition</option>
+            <option value="Dialogue">Dialogue</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Class</label>
+          <select id="postClass" class="form-control">
+            <option value="Class 7-9">Class 7-9</option>
+            <option value="SSC">SSC</option>
+            <option value="HSC">HSC</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Content / Description</label>
+          <textarea id="postContent" class="form-control" placeholder="আপনার কন্টেন্ট এখানে লিখুন..."></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="publishPostToFirebase()">Publish Post</button>
+      </div>
     </div>
 
-    <div id="noteContent" contenteditable="true"></div>
+    <!-- Notice Tab -->
+    <div id="noticeTab" style="display: none;">
+      <div class="card">
+        <h3>Notice Board</h3>
+        <p style="color: #666;">এখানে নোটিশ ম্যানেজ করার অপশন থাকবে।</p>
+      </div>
+    </div>
+
+    <!-- Ads Tab -->
+    <div id="adsTab" style="display: none;">
+      <div class="card">
+        <h3>Ads Manager</h3>
+        <p style="color: #666;">এখানে বিজ্ঞাপন ম্যানেজ করার অপশন থাকবে।</p>
+      </div>
+    </div>
+
   </div>
 
   <!-- Firebase Scripts -->
@@ -250,90 +233,88 @@
 
     const db = firebase.database();
 
-    // রিয়েল-টাইম ভিজিটর কাউন্টার লজিক
+    function switchTab(tabName) {
+      document.getElementById('dashboardTab').style.display = 'none';
+      document.getElementById('addPostTab').style.display = 'none';
+      document.getElementById('noticeTab').style.display = 'none';
+      document.getElementById('adsTab').style.display = 'none';
+
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      if (tabName === 'dashboard') {
+        document.getElementById('dashboardTab').style.display = 'block';
+        document.getElementById('btnDashboard').classList.add('active');
+      } else if (tabName === 'addPost') {
+        document.getElementById('addPostTab').style.display = 'block';
+        document.getElementById('btnAddPost').classList.add('active');
+      } else if (tabName === 'notice') {
+        document.getElementById('noticeTab').style.display = 'block';
+        document.getElementById('btnNotice').classList.add('active');
+      } else if (tabName === 'ads') {
+        document.getElementById('adsTab').style.display = 'block';
+        document.getElementById('btnAds').classList.add('active');
+      }
+    }
+
     const visitorRef = db.ref('counter/visitors');
     visitorRef.transaction(current => (current || 0) + 1);
     visitorRef.on('value', snapshot => {
       document.getElementById('visitorCount').innerText = snapshot.val() || 1;
     });
 
-    let selectedCategoryVal = "Story";
-    let selectedClassVal = "SSC";
-
-    function selectCategory(cat, btn) {
-      selectedCategoryVal = cat;
-      const parent = document.getElementById('categoryPills');
-      parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    function selectClass(cls, btn) {
-      selectedClassVal = cls;
-      const parent = document.getElementById('classPills');
-      parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    function openNoteEditor() {
-      document.getElementById('noteEditorView').style.display = 'flex';
-    }
-    function closeNoteEditor() {
-      document.getElementById('noteEditorView').style.display = 'none';
-    }
-
-    function formatText(command) {
-      document.execCommand(command, false, null);
-    }
-
-    // পোস্ট পাবলিশ করা এবং ফায়ারবেসে পাঠানো
-    function publishNotePost() {
+    function publishPostToFirebase() {
       const title = document.getElementById('postTitle').value.trim();
-      const content = document.getElementById('noteContent').innerHTML.trim();
+      const category = document.getElementById('postCategory').value;
+      const targetClass = document.getElementById('postClass').value;
+      const content = document.getElementById('postContent').value.trim();
 
       if (!title || !content) {
-        alert("মামা! টাইটেল এবং লেখার জায়গায় কিছু লেখো!");
+        alert("মামা! টাইটেল এবং কন্টেন্ট লিখুন!");
         return;
       }
 
       db.ref('posts').push({
         title: title,
-        text: content,
-        category: selectedCategoryVal,
-        targetClass: selectedClassVal,
+        category: category,
+        targetClass: targetClass,
+        content: content,
         time: Date.now()
       }).then(() => {
         alert("সফলভাবে পোস্ট পাবলিশ হয়েছে!");
         document.getElementById('postTitle').value = "";
-        document.getElementById('noteContent').innerHTML = "";
-        closeNoteEditor();
+        document.getElementById('postContent').value = "";
+        switchTab('dashboard');
       }).catch((error) => {
-        alert("এরর হয়েছে: " + error.message);
+        alert("এরর: " + error.message);
       });
     }
 
-    // ফায়ারবেস থেকে ডাটা এনে ড্যাশবোর্ডের কার্ডে শো করানো
     db.ref('posts').on('value', (snapshot) => {
-      const container = document.getElementById('adminPostsContainer');
+      const container = document.getElementById('postsListContainer');
+      const totalPostsCount = document.getElementById('totalPostsCount');
       container.innerHTML = "";
       
       const data = snapshot.val();
       if (!data) {
         container.innerHTML = "<p style='color: #777;'>কোনো পোস্ট পাওয়া যায়নি।</p>";
+        totalPostsCount.innerText = "0";
         return;
       }
 
-      Object.keys(data).reverse().forEach(key => {
+      const keys = Object.keys(data);
+      totalPostsCount.innerText = keys.length;
+
+      keys.reverse().forEach(key => {
         const post = data[key];
         const card = document.createElement('div');
-        card.className = 'post-card';
-        card.innerHTML = `
-          <h4>${post.title}</h4>
-          <div>${post.text}</div>
-          <div class="post-meta">
-            <span>📁 Category: <b>${post.category}</b></span>
-            <span>🎓 Class: <b>${post.targetClass}</b></span>
-          </div>
-        `;
+        card.className = 'published-post-card';
+        // Fixed using standard string concatenation to prevent backtick/syntax errors
+        card.innerHTML = '<h4>' + post.title + '</h4>' +
+                         '<p style="margin: 5px 0; color: #444; font-size: 14px;">' + post.content + '</p>' +
+                         '<div style="font-size: 12px; color: #666; margin-top: 8px; display: flex; gap: 15px;">' +
+                         '<span>📁 <b>' + post.category + '</b></span>' +
+                         '<span>🎓 <b>' + post.targetClass + '</b></span>' +
+                         '</div>';
         container.appendChild(card);
       });
     });
