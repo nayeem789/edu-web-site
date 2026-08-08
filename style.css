@@ -1077,3 +1077,21 @@ body.no-scroll {
     width: 100% !important; /* মোবাইলে ১টি করে দেখাবে */
   }
 }
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+header.header-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+body {
+  padding-top: 80px; /* হেডার ফিক্সড করার কারণে বডির কন্টেন্ট যেন ভেতরে ঢুকে না যায় */
+}
