@@ -397,3 +397,30 @@ window.addEventListener('scroll', function() {
 
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 });
+
+// পোস্ট পাবলিশ করার ফাংশন (ড্যাশবোর্ড বা ফর্মের জন্য)
+function publishPost() {
+    const content = document.getElementById('postEditor') ? document.getElementById('postEditor').value : '';
+    const category = document.getElementById('category') ? document.getElementById('category').value : 'Dialogue';
+    const targetClass = document.getElementById('className') ? document.getElementById('className').value : 'SSC';
+
+    if (!content) {
+        alert("আগে কিছু লিখুন মামা!");
+        return;
+    }
+
+    // ফায়ারবেসে পোস্ট পাঠানো
+    firebase.database().ref('posts').push({
+        text: content,
+        category: category,
+        targetClass: targetClass,
+        time: Date.now()
+    }).then(() => {
+        alert("সফলভাবে পোস্ট পাবলিশ হয়েছে!");
+        if (document.getElementById('postEditor')) {
+            document.getElementById('postEditor').value = "";
+        }
+    }).catch((error) => {
+        alert("এরর হয়েছে: " + error.message);
+    });
+}
