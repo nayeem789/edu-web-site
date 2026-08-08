@@ -262,3 +262,34 @@
   </script>
 </body>
 </html>
+
+<div class="card" style="margin-top: 15px; padding: 15px;">
+    <h3>নতুন পোস্ট তৈরি করুন</h3>
+    
+    <!-- লেখার বক্স -->
+    <textarea id="postEditor" placeholder="আপনার কন্টেন্ট বা পোস্ট এখানে লিখুন..." style="width: 100%; height: 120px; margin-bottom: 10px; padding: 8px;"></textarea>
+    
+    <!-- ক্যাটাগরি সিলেক্ট -->
+    <div style="margin-bottom: 10px;">
+        <label>ক্যাটাগরি:</label>
+        <select id="category" style="width: 100%; padding: 5px;">
+            <option value="Story">Story</option>
+            <option value="Paragraph">Paragraph</option>
+            <option value="Composition">Composition</option>
+            <option value="Dialogue">Dialogue</option>
+        </select>
+    </div>
+
+    <!-- ক্লাস সিলেক্ট -->
+    <div style="margin-bottom: 10px;">
+        <label>ক্লাস:</label>
+        <select id="className" style="width: 100%; padding: 5px;">
+            <option value="Class 7-9">Class 7-9</option>
+            <option value="SSC">SSC</option>
+            <option value="HSC">HSC</option>
+        </select>
+    </div>
+
+    <!-- পাবলিশ বাটন -->
+    <button onclick="publishPost()" style="background: #28a745; color: white; padding: 10px 15px; border: none; cursor: pointer; width: 100%;">পাবলিশ করুন</button>
+</div>
