@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - English Box</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      background: #f4f6f9;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background: #2c3e50;
+      color: #fff;
+      padding: 20px;
+    }
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 20px;
+      color: #3498db;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar ul li {
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      background: #34495e;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .sidebar ul li:hover, .sidebar ul li.active {
+      background: #3498db;
+    }
+    .main-content {
+      flex: 1;
+      padding: 30px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      margin-bottom: 25px;
+    }
+    .logout-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Menu -->
+  <div class="sidebar">
+    <h2>English Box Admin</h2>
+    <ul>
+      <li class="active">📊 Dashboard</li>
+      <li>📝 Add Post</li>
+      <li>📢 Notice Board</li>
+      <li>💰 Ads Manager</li>
+    </ul>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <div class="header">
+      <h3>Welcome to Admin Panel</h3>
+      <button class="logout-btn" id="logout-btn">Logout</button>
+    </div>
+
+    <div class="card">
+      <h2>অভিনন্দন মামা! 🎉</h2>
+      <p style="margin-top: 10px;">তুই সফলভাবে Admin Dashboard-এ লগইন করে ফেলেছিস!</p>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHw9bhTTtZmjGTSh4-PBxbL67VcV0okf4",
+      authDomain: "english-box-35257.firebaseapp.com",
+      projectId: "english-box-35257",
+      storageBucket: "english-box-35257.firebasestorage.app",
+      messagingSenderId: "188594812365",
+      appId: "1:188594812365:web:8bc90c38b571ce9d948084",
+      measurementId: "G-T3NM4LT45S"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+
+    // সিকিউরিটি চেক: লগইন না থাকলে সরাসরি লগইন পেজে পাঠাবে
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = "admin-login.html";
+      }
+    });
+
+    // লগআউট বাটন
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      firebase.auth().signOut().then(() => {
+        window.location.href = "admin-login.html";
+      });
+    });
+  </script>
+</body>
+</html>
