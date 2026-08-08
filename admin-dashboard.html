@@ -1,210 +1,188 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - English Box</title>
+  <title>Admin Dashboard - ENGLISH BOX</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    /* নোটপ্যাড স্টাইল পেজ ডিজাইন */
     body {
-      display: flex;
-      background: #f4f6f9;
-      min-height: 100vh;
-      flex-direction: row;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
     }
-    .menu-toggle {
+    #mainDashboardView {
+      padding: 20px;
+    }
+    #noteEditorView {
       display: none;
-      background: #2c3e50;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      font-size: 20px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .sidebar {
-      width: 250px;
-      background: #2c3e50;
-      color: #fff;
-      padding: 20px;
-      transition: 0.3s;
-    }
-    .sidebar h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 20px;
-      color: #3498db;
-    }
-    .sidebar ul {
-      list-style: none;
-    }
-    .sidebar ul li {
-      padding: 12px 15px;
-      margin-bottom: 8px;
-      background: #34495e;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .sidebar ul li:hover, .sidebar ul li.active {
-      background: #3498db;
-    }
-    .main-content {
-      flex: 1;
-      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
+      height: 100%;
+      background: #ffffff;
+      z-index: 9999;
+      flex-direction: column;
+      box-sizing: border-box;
     }
-    .header {
+    .note-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      padding: 12px 15px;
+      border-bottom: 1px solid #e0e0e0;
       background: #fff;
-      padding: 15px 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      margin-bottom: 25px;
     }
-    .logout-btn {
-      background: #e74c3c;
+    .note-header button {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+    .note-header input {
+      border: none;
+      outline: none;
+      font-size: 18px;
+      width: 100%;
+      margin-left: 12px;
+      font-weight: 500;
+    }
+    /* শওয়ানো পিল এবং পাবলিশ বাটনবার */
+    .note-toolbar-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      background: #f8f9fa;
+      padding: 10px 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .pill-group {
+      display: flex;
+      gap: 5px;
+      background: #e9ecef;
+      padding: 3px;
+      border-radius: 20px;
+    }
+    .pill-btn {
+      background: transparent;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #555;
+      transition: 0.2s;
+    }
+    .pill-btn.active {
+      background: #007bff;
+      color: #fff;
+    }
+    .publish-btn {
+      background: #28a745;
       color: white;
       border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-weight: bold;
       cursor: pointer;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-    .stat-card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      border-left: 5px solid #3498db;
-    }
-    .stat-card h4 {
-      color: #7f8c8d;
+      margin-left: auto;
       font-size: 14px;
-      margin-bottom: 8px;
     }
-    .stat-card h2 {
-      font-size: 28px;
-      color: #2c3e50;
-    }
-
-    .card {
+    /* টেক্সট এডিটিং টুলবার */
+    .note-toolbar-bottom {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      padding: 8px 15px;
       background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+      overflow-x: auto;
     }
-    .section-content {
-      display: none;
+    .note-toolbar-bottom button {
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: #444;
+      padding: 4px;
     }
-    .section-content.active {
-      display: block;
+    .note-toolbar-bottom button:active {
+      color: #007bff;
     }
-
-    @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-      .menu-toggle {
-        display: block;
-      }
-      .sidebar {
-        width: 100%;
-        display: none;
-      }
-      .sidebar.open {
-        display: block;
-      }
-      .header {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
+    /* লেখার মেইন জায়গা */
+    #noteContent {
+      flex-grow: 1;
+      outline: none;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 15px;
+      overflow-y: auto;
+      background: #fff;
     }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar Menu -->
-  <div class="sidebar" id="sidebar">
-    <h2>English Box Admin</h2>
-    <ul>
-      <li class="active" onclick="showSection('dashboard')">📊 Dashboard</li>
-      <li onclick="showSection('add-post')">📝 Add Post</li>
-      <li onclick="showSection('notice')">📢 Notice Board</li>
-      <li onclick="showSection('monetization')">💰 Ads Manager</li>
-    </ul>
+  <!-- ড্যাশবোর্ড হোমভিউ -->
+  <div id="mainDashboardView">
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <h2>Dashboard Overview</h2>
+      <p>নতুন পোস্ট যোগ করার জায়গা</p>
+      <button onclick="openNoteEditor()" style="background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 15px; margin-top: 10px;">Add New Content ➔</button>
+    </div>
   </div>
 
-  <!-- Main Content Area -->
-  <div class="main-content">
-    <div class="header">
-      <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
-      <h3>Dashboard Overview</h3>
-      <button class="logout-btn" id="logout-btn">Logout</button>
+  <!-- নোটপ্যাড স্টাইল ফুল-স্ক্রিন এডিটর -->
+  <div id="noteEditorView">
+    
+    <!-- টপ টাইটেল বার -->
+    <div class="note-header">
+      <button onclick="closeNoteEditor()">❮</button>
+      <input type="text" id="postTitle" placeholder="Title">
     </div>
 
-    <!-- 1. Dashboard Overview / Analytics Section -->
-    <div id="dashboard" class="section-content active">
-      <!-- Live Visitor / Stats Cards -->
-      <div class="stats-grid">
-        <div class="stat-card" style="border-color: #2ecc71;">
-          <h4>Real-time Visitors</h4>
-          <h2 id="live-visitor-count">0</h2>
-        </div>
-        <div class="stat-card" style="border-color: #f1c40f;">
-          <h4>Total Posts</h4>
-          <h2 id="total-posts-count">0</h2>
-        </div>
+    <!-- ক্যাটাগরি, ক্লাস সিলেকশন পিল এবং পাবলিশ বাটন -->
+    <div class="note-toolbar-top">
+      <!-- ক্যাটাগরি পিল -->
+      <div class="pill-group" id="categoryPills">
+        <button class="pill-btn active" onclick="selectCategory('Story', this)">Story</button>
+        <button class="pill-btn" onclick="selectCategory('Paragraph', this)">Paragraph</button>
+        <button class="pill-btn" onclick="selectCategory('Composition', this)">Composition</button>
+        <button class="pill-btn" onclick="selectCategory('Dialogue', this)">Dialogue</button>
       </div>
 
-      <div class="card">
-        <h3>Quick Overview</h3>
-        <p style="margin-top: 10px; color: #555;">তোর সাইটে এখন যেসব ভিজিটর আসছে রিয়েল-টাইমে তা ফায়ারবেসের মাধ্যমে ওপরে দেখা যাচ্ছে।</p>
+      <!-- ক্লাস পিল -->
+      <div class="pill-group" id="classPills">
+        <button class="pill-btn" onclick="selectClass('Class 7-9', this)">7-9</button>
+        <button class="pill-btn active" onclick="selectClass('SSC', this)">SSC</button>
+        <button class="pill-btn" onclick="selectClass('HSC', this)">HSC</button>
       </div>
+
+      <!-- পাবলিশ বাটন -->
+      <button class="publish-btn" onclick="publishNotePost()">Publish</button>
     </div>
 
-    <!-- 2. Add Post Section -->
-    <div id="add-post" class="section-content">
-      <div class="card">
-        <h3>Add New Content</h3>
-        <p>নতুন পোস্ট যোগ করার জায়গা।</p>
-      </div>
+    <!-- টেক্সট এডিটিং টুলবার (Working) -->
+    <div class="note-toolbar-bottom">
+      <button onclick="formatText('bold')" title="Bold"><b>B</b></button>
+      <button onclick="formatText('italic')" title="Italic"><i>I</i></button>
+      <button onclick="formatText('underline')" title="Underline"><u>U</u></button>
+      <button onclick="formatText('strikeThrough')" title="Strikethrough"><del>T</del></button>
+      <button onclick="formatText('insertOrderedList')" title="Numbered List">1≡</button>
+      <button onclick="formatText('insertUnorderedList')" title="Bullet List">•≡</button>
+      <button onclick="formatText('justifyLeft')" title="Align Left">≡</button>
     </div>
 
-    <!-- 3. Notice Board -->
-    <div id="notice" class="section-content">
-      <div class="card">
-        <h3>Notice Board Control</h3>
-        <p>ওয়েবসাইটের নোটিশ পরিবর্তন করার জায়গা।</p>
-      </div>
-    </div>
-
-    <!-- 4. Ads Manager -->
-    <div id="monetization" class="section-content">
-      <div class="card">
-        <h3>Google AdSense Integration</h3>
-        <p>AdSense কোড বসানোর অপশন।</p>
-      </div>
-    </div>
-
+    <!-- লেখার নোটপ্যাড কন্টেইনার -->
+    <div id="noteContent" contenteditable="true" placeholder="Type something..."></div>
   </div>
 
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <script>
@@ -217,79 +195,69 @@
       messagingSenderId: "188594812365",
       appId: "1:188594812365:web:8bc90c38b571ce9d948084"
     };
-    
-    firebase.initializeApp(firebaseConfig);
 
-    // Security Check
-    firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        window.location.href = "admin-login.html";
-      }
-    });
-
-    // Real-time Visitor Listener from Firebase Database
-    const visitorCountElement = document.getElementById('live-visitor-count');
-    firebase.database().ref('analytics/total_visitors').on('value', (snapshot) => {
-      const count = snapshot.val() || 0;
-      visitorCountElement.innerText = count.toLocaleString();
-    });
-
-    // Logout Functionality
-    document.getElementById('logout-btn').addEventListener('click', () => {
-      firebase.auth().signOut().then(() => {
-        window.location.href = "admin-login.html";
-      });
-    });
-
-    // Mobile Menu Toggle
-    function toggleMenu() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('open');
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
     }
 
-    // Section Switcher
-    function showSection(sectionId) {
-      document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
-      document.querySelectorAll('.sidebar ul li').forEach(li => li.classList.remove('active'));
+    let selectedCategoryVal = "Story";
+    let selectedClassVal = "SSC";
 
-      document.getElementById(sectionId).classList.add('active');
-      event.currentTarget.classList.add('active');
+    // ক্যাটাগরি পিল সিলেক্ট করার ফাংশন
+    function selectCategory(cat, btn) {
+      selectedCategoryVal = cat;
+      const parent = document.getElementById('categoryPills');
+      parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
 
-      if (window.innerWidth <= 768) {
-        document.getElementById('sidebar').classList.remove('open');
+    // ক্লাস পিল সিলেক্ট করার ফাংশন
+    function selectClass(cls, btn) {
+      selectedClassVal = cls;
+      const parent = document.getElementById('classPills');
+      parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // ফুল-স্ক্রিন এডিটর ওপেন ও ক্লোজ
+    function openNoteEditor() {
+      document.getElementById('noteEditorView').style.display = 'flex';
+    }
+    function closeNoteEditor() {
+      document.getElementById('noteEditorView').style.display = 'none';
+    }
+
+    // টেক্সট ফরম্যাটিং কাজ করার জন্য
+    function formatText(command) {
+      document.execCommand(command, false, null);
+    }
+
+    // ফায়ারবেসে ডাটা সেভ বা পাবলিশ করার ফাংশন
+    function publishNotePost() {
+      const title = document.getElementById('postTitle').value.trim();
+      const content = document.getElementById('noteContent').innerHTML.trim();
+
+      if (!title || !content) {
+        alert("মামা! টাইটেল এবং লেখার জায়গায় কিছু একটা লেখো!");
+        return;
       }
+
+      firebase.database().ref('posts').push({
+        title: title,
+        text: content,
+        category: selectedCategoryVal,
+        targetClass: selectedClassVal,
+        time: Date.now()
+      }).then(() => {
+        alert("সফলভাবে পোস্ট পাবলিশ হয়েছে!");
+        document.getElementById('postTitle').value = "";
+        document.getElementById('noteContent').innerHTML = "";
+        closeNoteEditor();
+      }).catch((error) => {
+        alert("এরর হয়েছে: " + error.message);
+      });
     }
   </script>
+
 </body>
 </html>
-
-<div class="card" style="margin-top: 15px; padding: 15px;">
-    <h3>নতুন পোস্ট তৈরি করুন</h3>
-    
-    <!-- লেখার বক্স -->
-    <textarea id="postEditor" placeholder="আপনার কন্টেন্ট বা পোস্ট এখানে লিখুন..." style="width: 100%; height: 120px; margin-bottom: 10px; padding: 8px;"></textarea>
-    
-    <!-- ক্যাটাগরি সিলেক্ট -->
-    <div style="margin-bottom: 10px;">
-        <label>ক্যাটাগরি:</label>
-        <select id="category" style="width: 100%; padding: 5px;">
-            <option value="Story">Story</option>
-            <option value="Paragraph">Paragraph</option>
-            <option value="Composition">Composition</option>
-            <option value="Dialogue">Dialogue</option>
-        </select>
-    </div>
-
-    <!-- ক্লাস সিলেক্ট -->
-    <div style="margin-bottom: 10px;">
-        <label>ক্লাস:</label>
-        <select id="className" style="width: 100%; padding: 5px;">
-            <option value="Class 7-9">Class 7-9</option>
-            <option value="SSC">SSC</option>
-            <option value="HSC">HSC</option>
-        </select>
-    </div>
-
-    <!-- পাবলিশ বাটন -->
-    <button onclick="publishPost()" style="background: #28a745; color: white; padding: 10px 15px; border: none; cursor: pointer; width: 100%;">পাবলিশ করুন</button>
-</div>
