@@ -4,17 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - ENGLISH BOX</title>
-  <link rel="stylesheet" href="style.css">
   <style>
-    /* নোটপ্যাড স্টাইল পেজ ডিজাইন */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #f4f6f9;
+      color: #333;
     }
-    #mainDashboardView {
+    /* ড্যাশবোর্ড লেআউট */
+    .dashboard-header {
+      background: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+    }
+    .main-container {
       padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
     }
+    .stats-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    /* পোস্ট কার্ড ডিজাইন */
+    .posts-section {
+      margin-top: 20px;
+    }
+    .post-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      margin-bottom: 15px;
+      border-left: 5px solid #007bff;
+    }
+    .post-card h4 {
+      margin: 0 0 8px 0;
+      color: #007bff;
+    }
+    .post-meta {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+      display: flex;
+      gap: 15px;
+    }
+
+    /* নোটপ্যাড স্টাইল ফুল-স্ক্রিন এডিটর */
     #noteEditorView {
       display: none;
       position: fixed;
@@ -49,7 +94,6 @@
       margin-left: 12px;
       font-weight: 500;
     }
-    /* শওয়ানো পিল এবং পাবলিশ বাটনবার */
     .note-toolbar-top {
       display: flex;
       flex-wrap: wrap;
@@ -75,7 +119,6 @@
       font-weight: bold;
       cursor: pointer;
       color: #555;
-      transition: 0.2s;
     }
     .pill-btn.active {
       background: #007bff;
@@ -92,7 +135,6 @@
       margin-left: auto;
       font-size: 14px;
     }
-    /* টেক্সট এডিটিং টুলবার */
     .note-toolbar-bottom {
       display: flex;
       gap: 15px;
@@ -110,10 +152,6 @@
       color: #444;
       padding: 4px;
     }
-    .note-toolbar-bottom button:active {
-      color: #007bff;
-    }
-    /* লেখার মেইন জায়গা */
     #noteContent {
       flex-grow: 1;
       outline: none;
@@ -127,27 +165,41 @@
 </head>
 <body>
 
-  <!-- ড্যাশবোর্ড হোমভিউ -->
-  <div id="mainDashboardView">
-    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-      <h2>Dashboard Overview</h2>
-      <p>নতুন পোস্ট যোগ করার জায়গা</p>
-      <button onclick="openNoteEditor()" style="background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 15px; margin-top: 10px;">Add New Content ➔</button>
+  <!-- ড্যাশবোর্ড হেডার ও রিয়েল-টাইম ভিজিটর ওভারভিউ -->
+  <div class="dashboard-header">
+    <h2>Admin Dashboard</h2>
+    <div id="visitorCounter" style="background: #e3f2fd; padding: 6px 12px; border-radius: 15px; font-weight: bold; font-size: 14px; color: #0d47a1;">
+      👥 Real-time Visitors: <span id="visitorCount">1</span>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <!-- নতুন পোস্ট যোগ করার কার্ড -->
+    <div class="stats-card">
+      <div>
+        <h3>Add New Content</h3>
+        <p style="margin: 0; color: #666; font-size: 14px;">নোটপ্যাডের মতো লিখে সরাসরি ওয়েবসাইটে পাবলিশ করুন।</p>
+      </div>
+      <button onclick="openNoteEditor()" style="background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 15px;">Add New Content ➔</button>
+    </div>
+
+    <!-- পাবলিশ করা পোস্টগুলো কার্ড আকারে এখানে শো করবে -->
+    <div class="posts-section">
+      <h3>Published Posts List</h3>
+      <div id="adminPostsContainer">
+        <p style="color: #777;">লোড হচ্ছে...</p>
+      </div>
     </div>
   </div>
 
   <!-- নোটপ্যাড স্টাইল ফুল-স্ক্রিন এডিটর -->
   <div id="noteEditorView">
-    
-    <!-- টপ টাইটেল বার -->
     <div class="note-header">
       <button onclick="closeNoteEditor()">❮</button>
       <input type="text" id="postTitle" placeholder="Title">
     </div>
 
-    <!-- ক্যাটাগরি, ক্লাস সিলেকশন পিল এবং পাবলিশ বাটন -->
     <div class="note-toolbar-top">
-      <!-- ক্যাটাগরি পিল -->
       <div class="pill-group" id="categoryPills">
         <button class="pill-btn active" onclick="selectCategory('Story', this)">Story</button>
         <button class="pill-btn" onclick="selectCategory('Paragraph', this)">Paragraph</button>
@@ -155,18 +207,15 @@
         <button class="pill-btn" onclick="selectCategory('Dialogue', this)">Dialogue</button>
       </div>
 
-      <!-- ক্লাস পিল -->
       <div class="pill-group" id="classPills">
         <button class="pill-btn" onclick="selectClass('Class 7-9', this)">7-9</button>
         <button class="pill-btn active" onclick="selectClass('SSC', this)">SSC</button>
         <button class="pill-btn" onclick="selectClass('HSC', this)">HSC</button>
       </div>
 
-      <!-- পাবলিশ বাটন -->
       <button class="publish-btn" onclick="publishNotePost()">Publish</button>
     </div>
 
-    <!-- টেক্সট এডিটিং টুলবার (Working) -->
     <div class="note-toolbar-bottom">
       <button onclick="formatText('bold')" title="Bold"><b>B</b></button>
       <button onclick="formatText('italic')" title="Italic"><i>I</i></button>
@@ -177,8 +226,7 @@
       <button onclick="formatText('justifyLeft')" title="Align Left">≡</button>
     </div>
 
-    <!-- লেখার নোটপ্যাড কন্টেইনার -->
-    <div id="noteContent" contenteditable="true" placeholder="Type something..."></div>
+    <div id="noteContent" contenteditable="true"></div>
   </div>
 
   <!-- Firebase Scripts -->
@@ -200,10 +248,18 @@
       firebase.initializeApp(firebaseConfig);
     }
 
+    const db = firebase.database();
+
+    // রিয়েল-টাইম ভিজিটর কাউন্টার লজিক
+    const visitorRef = db.ref('counter/visitors');
+    visitorRef.transaction(current => (current || 0) + 1);
+    visitorRef.on('value', snapshot => {
+      document.getElementById('visitorCount').innerText = snapshot.val() || 1;
+    });
+
     let selectedCategoryVal = "Story";
     let selectedClassVal = "SSC";
 
-    // ক্যাটাগরি পিল সিলেক্ট করার ফাংশন
     function selectCategory(cat, btn) {
       selectedCategoryVal = cat;
       const parent = document.getElementById('categoryPills');
@@ -211,7 +267,6 @@
       btn.classList.add('active');
     }
 
-    // ক্লাস পিল সিলেক্ট করার ফাংশন
     function selectClass(cls, btn) {
       selectedClassVal = cls;
       const parent = document.getElementById('classPills');
@@ -219,7 +274,6 @@
       btn.classList.add('active');
     }
 
-    // ফুল-স্ক্রিন এডিটর ওপেন ও ক্লোজ
     function openNoteEditor() {
       document.getElementById('noteEditorView').style.display = 'flex';
     }
@@ -227,22 +281,21 @@
       document.getElementById('noteEditorView').style.display = 'none';
     }
 
-    // টেক্সট ফরম্যাটিং কাজ করার জন্য
     function formatText(command) {
       document.execCommand(command, false, null);
     }
 
-    // ফায়ারবেসে ডাটা সেভ বা পাবলিশ করার ফাংশন
+    // পোস্ট পাবলিশ করা এবং ফায়ারবেসে পাঠানো
     function publishNotePost() {
       const title = document.getElementById('postTitle').value.trim();
       const content = document.getElementById('noteContent').innerHTML.trim();
 
       if (!title || !content) {
-        alert("মামা! টাইটেল এবং লেখার জায়গায় কিছু একটা লেখো!");
+        alert("মামা! টাইটেল এবং লেখার জায়গায় কিছু লেখো!");
         return;
       }
 
-      firebase.database().ref('posts').push({
+      db.ref('posts').push({
         title: title,
         text: content,
         category: selectedCategoryVal,
@@ -257,6 +310,33 @@
         alert("এরর হয়েছে: " + error.message);
       });
     }
+
+    // ফায়ারবেস থেকে ডাটা এনে ড্যাশবোর্ডের কার্ডে শো করানো
+    db.ref('posts').on('value', (snapshot) => {
+      const container = document.getElementById('adminPostsContainer');
+      container.innerHTML = "";
+      
+      const data = snapshot.val();
+      if (!data) {
+        container.innerHTML = "<p style='color: #777;'>কোনো পোস্ট পাওয়া যায়নি।</p>";
+        return;
+      }
+
+      Object.keys(data).reverse().forEach(key => {
+        const post = data[key];
+        const card = document.createElement('div');
+        card.className = 'post-card';
+        card.innerHTML = `
+          <h4>${post.title}</h4>
+          <div>${post.text}</div>
+          <div class="post-meta">
+            <span>📁 Category: <b>${post.category}</b></span>
+            <span>🎓 Class: <b>${post.targetClass}</b></span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    });
   </script>
 
 </body>
