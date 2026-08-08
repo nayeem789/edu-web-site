@@ -69,8 +69,8 @@
     <h2>Admin Login</h2>
     <form id="login-form">
       <div class="input-group">
-        <label>Username</label>
-        <input type="text" id="username" required placeholder="Enter username">
+        <label>Username / Email</label>
+        <input type="text" id="username" required placeholder="admin@gmail.com">
       </div>
       <div class="input-group">
         <label>Password</label>
@@ -113,7 +113,8 @@
           window.location.href = "admin-dashboard.html";
         })
         .catch((error) => {
-          errorMsg.innerText = "ভুল ইউজারনেম অথবা পাসওয়ার্ড!";
+          console.error("Firebase Auth Error:", error);
+          errorMsg.innerText = "ভুল ইউজারনেম অথবা পাসওয়ার্ড! (" + error.code + ")";
         });
     });
   </script>
