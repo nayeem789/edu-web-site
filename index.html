@@ -78,7 +78,7 @@
         <a href="content.html?type=story" class="view-all-btn">VIEW ALL ➔</a>
       </div>
 
-      <!-- Card 2 (DIALOGUES - নতুন ফাইলগুলোর সাথে সরাসরি কানেক্ট করা হয়েছে) -->
+      <!-- Card 2 -->
       <div class="card">
         <div class="card-title-top">ENGLISH 1ST PAPER - DIALOGUES</div>
         <div class="card-media">
@@ -143,34 +143,58 @@
   </div>
 
   <script src="script.js"></script>
-  <script src="script.js"></script>
 
-    <!-- Firebase Live Counter Tracker -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyAHw9bhTTtZmjGTSh4-PBxbL67VcV0okf4",
-        authDomain: "english-box-35257.firebaseapp.com",
-        databaseURL: "https://english-box-35257-default-rtdb.firebaseio.com",
-        projectId: "english-box-35257",
-        storageBucket: "english-box-35257.firebasestorage.app",
-        messagingSenderId: "188594812365",
-        appId: "1:188594812365:web:8bc90c38b571ce9d948084"
-      };
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHw9bhTTtZmjGTSh4-PBxbL67VcV0okf4",
+      authDomain: "english-box-35257.firebaseapp.com",
+      databaseURL: "https://english-box-35257-default-rtdb.firebaseio.com",
+      projectId: "english-box-35257",
+      storageBucket: "english-box-35257.firebasestorage.app",
+      messagingSenderId: "188594812365",
+      appId: "1:188594812365:web:8bc90c38b571ce9d948084"
+    };
 
-      if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-      }
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
 
-      const visitorRef = firebase.database().ref('analytics/total_visitors');
-      visitorRef.transaction((currentCount) => {
-        return (currentCount || 0) + 1;
+    // 1. Live Visitor Counter Tracker
+    const visitorRef = firebase.database().ref('analytics/total_visitors');
+    visitorRef.transaction((currentCount) => {
+      return (currentCount || 0) + 1;
+    });
+
+    // 2. Load Posts Dynamically into Home Page Sections
+    firebase.database().ref('posts').on('value', (snapshot) => {
+      // Clear current lists
+      const storyList = document.getElementById('story-list');
+      const paragraphList = document.getElementById('paragraph-list');
+      const compositionList = document.getElementById('composition-list');
+      
+      if (storyList) storyList.innerHTML = '';
+      if (paragraphList) paragraphList.innerHTML = '';
+      if (compositionList) compositionList.innerHTML = '';
+
+      snapshot.forEach((childSnapshot) => {
+        const post = childSnapshot.val();
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="#">${post.title || post.category} (${post.targetClass})</a>`;
+
+        if (post.category === 'Story' && storyList) {
+          storyList.appendChild(li);
+        } else if (post.category === 'Paragraph' && paragraphList) {
+          paragraphList.appendChild(li);
+        } else if (post.category === 'Composition' && compositionList) {
+          compositionList.appendChild(li);
+        }
       });
-    </script>
+    });
+  </script>
 
-</body>
-</html>
 </body>
 </html>
