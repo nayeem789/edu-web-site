@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - English Box</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-card {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 350px;
+    }
+    .login-card h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #666;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #error-msg {
+      color: red;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <h2>Admin Login</h2>
+    <form id="login-form">
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" id="username" required placeholder="Enter username">
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" required placeholder="••••••••">
+      </div>
+      <button type="submit">Login</button>
+      <p id="error-msg"></p>
+    </form>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHw9bhTTtZmjGTSh4-PBxbL67VcV0okf4",
+      authDomain: "english-box-35257.firebaseapp.com",
+      projectId: "english-box-35257",
+      storageBucket: "english-box-35257.firebasestorage.app",
+      messagingSenderId: "188594812365",
+      appId: "1:188594812365:web:8bc90c38b571ce9d948084",
+      measurementId: "G-T3NM4LT45S"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+
+    const loginForm = document.getElementById('login-form');
+    const errorMsg = document.getElementById('error-msg');
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      const formattedEmail = username.includes('@') ? username : `${username}@englishbox.com`;
+
+      firebase.auth().signInWithEmailAndPassword(formattedEmail, password)
+        .then((userCredential) => {
+          window.location.href = "admin-dashboard.html";
+        })
+        .catch((error) => {
+          errorMsg.innerText = "ভুল ইউজারনেম অথবা পাসওয়ার্ড!";
+        });
+    });
+  </script>
+</body>
+</html>
