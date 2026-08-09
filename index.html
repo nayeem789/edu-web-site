@@ -199,6 +199,60 @@
       }
     });
   </script>
+<!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHw9bhTTtZmjGTSh4-PBxbL67VcV0okf4",
+      authDomain: "english-box-35257.firebaseapp.com",
+      databaseURL: "https://english-box-35257-default-rtdb.firebaseio.com",
+      projectId: "english-box-35257",
+      storageBucket: "english-box-35257.firebasestorage.app",
+      messagingSenderId: "188594812365",
+      appId: "1:188594812365:web:8bc90c38b571ce9d948084"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    // Live Visitor Counter Tracker
+    const visitorRef = firebase.database().ref('analytics/total_visitors');
+    visitorRef.transaction((currentCount) => {
+      return (currentCount || 0) + 1;
+    });
+
+    // Load Posts Dynamically (Without blocking class mismatch so it always shows)
+    firebase.database().ref('posts').on('value', (snapshot) => {
+      const storyList = document.getElementById('story-list');
+      const paragraphList = document.getElementById('paragraph-list');
+      const compositionList = document.getElementById('composition-list');
+      
+      if (storyList) storyList.innerHTML = '';
+      if (paragraphList) paragraphList.innerHTML = '';
+      if (compositionList) compositionList.innerHTML = '';
+
+      const posts = snapshot.val();
+      if (posts) {
+        Object.keys(posts).reverse().forEach((key) => {
+          const post = posts[key];
+          const li = document.createElement('li');
+          
+          li.innerHTML = `<a href="javascript:void(0);" onclick="alert(${JSON.stringify(post.content)})">${post.title} (${post.targetClass})</a>`;
+
+          if (post.category === 'Story' && storyList) {
+            storyList.appendChild(li);
+          } else if (post.category === 'Paragraph' && paragraphList) {
+            paragraphList.appendChild(li);
+          } else if (post.category === 'Composition' && compositionList) {
+            compositionList.appendChild(li);
+          }
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
