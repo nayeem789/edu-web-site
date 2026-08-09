@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>English Box Admin Panel</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        button { padding: 10px 20px; cursor: pointer; }
+        .switch { display: inline-block; width: 50px; height: 25px; background: grey; border-radius: 15px; position: relative; }
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>English Box Admin Panel</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        button { padding: 10px 20px; cursor: pointer; background: #006644; color: white; border: none; border-radius: 5px; }
+        input, select { padding: 10px; width: 100%; margin: 10px 0; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+
+    <h1>English Box Admin Dashboard</h1>
+
+    <!-- 1. Live Viewers Count -->
+    <div class="card">
+        <h3>Live Viewers: <span id="viewCount" style="color: red;">0</span></h3>
+    </div>
+
+    <!-- 2. Ads Control System -->
+    <div class="card">
+        <h3>Ads Control: <span id="adStatusDisplay">Loading...</span></h3>
+        <button onclick="toggleAds()">Turn ON/OFF Ads</button>
+    </div>
+
+    <!-- 3. Add New Post -->
+    <div class="card">
+        <h3>Add New Post</h3>
+        <input type="text" id="postTitle" placeholder="Post Title (e.g. Tree Plantation)">
+        <select id="postCategory">
+            <option value="stories">Stories</option>
+            <option value="dialogues">Dialogues</option>
+            <option value="paragraphs">Paragraphs</option>
+            <option value="compositions">Compositions</option>
+        </select>
+        <button onclick="uploadPost()">Publish Post</button>
+    </div>
+
+    <!-- Firebase SDKs & Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, get, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // ফায়ারবেস কনফিগ
+        const firebaseConfig = {
+            apiKey: "AIzaSyAHw9bhTTtZmjGTSh4-PBxbL67VcV0okf4",
+            authDomain: "english-box-35257.firebaseapp.com",
+            databaseURL: "https://english-box-35257-default-rtdb.firebaseio.com",
+            projectId: "english-box-35257",
+            storageBucket: "english-box-35257.firebasestorage.app",
+            messagingSenderId: "188594812365",
+            appId: "1:188594812365:web:8bc90c38b571ce9d948084",
+            measurementId: "G-T3NM4LT45S"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ১. লাইভ ভিউয়ার্স রিয়েল-টাইম লোড করা
+        const counterRef = ref(db, 'counter/activeUsers');
+        onValue(counterRef, (snapshot) => {
+            const count = snapshot.val() || 0;
+            document.getElementById('viewCount').innerText = count;
+        });
+
+        // ২. অ্যাড স্ট্যাটাস চেক ও টগল করা
+        const adRef = ref(db, 'settings/adsEnabled');
+        onValue(adRef, (snapshot) => {
+            const adsOn = snapshot.val();
+            document.getElementById('adStatusDisplay').innerText = adsOn ? "ON" : "OFF";
+        });
+
+        window.toggleAds = function() {
+            get(adRef).then((snapshot) => {
+                const currentStatus = snapshot.val() || false;
+                set(adRef, !currentStatus);
+            });
+        }
+
+        // ৩. নতুন পোস্ট ডেটাবেজে পাঠানো
+        window.uploadPost = function() {
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+
+            if(!title) {
+                alert("Please enter a post title!");
+                return;
+            }
+
+            const newPostRef = push(ref(db, 'posts/' + category));
+            set(newPostRef, {
+                title: title,
+                timestamp: Date.now()
+            }).then(() => {
+                alert("Post uploaded successfully!");
+                document.getElementById('postTitle').value = '';
+            }).catch((error) => {
+                alert("Error: " + error.message);
+            });
+        }
+    </script>
+</body>
+</html>
