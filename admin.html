@@ -11,6 +11,7 @@
       --success-green: #10b981;
       --warning-yellow: #f59e0b;
       --danger-red: #ef4444;
+      --edit-color: #f59e0b;
       --bg-color: #f8fafc;
       --card-bg: #ffffff;
       --text-main: #1e293b;
@@ -51,10 +52,8 @@
       text-align: center;
       font-size: 18px;
       font-weight: bold;
-      letter-spacing: 0.5px;
     }
 
-    /* Side Menu Drawer Style / Stacked Navigation */
     .menu-drawer {
       background: var(--primary-dark);
       padding: 15px;
@@ -106,16 +105,6 @@
       border: 1px solid var(--border);
       margin-bottom: 15px;
     }
-    .menu-toggle-btn {
-      background: var(--primary-dark);
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 14px;
-    }
     .logout-btn-small {
       background: var(--danger-red);
       color: white;
@@ -127,7 +116,6 @@
       font-size: 14px;
     }
 
-    /* Stat Cards matching 2nd/3rd image */
     .stat-box {
       background: var(--card-bg);
       padding: 18px;
@@ -140,7 +128,6 @@
     .stat-box h3 { font-size: 14px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
     .stat-box .count-num { font-size: 32px; font-weight: bold; color: var(--text-main); }
 
-    /* Form Styles */
     .form-group { margin-bottom: 14px; text-align: left; }
     .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; }
     .form-control {
@@ -152,7 +139,7 @@
       outline: none;
     }
     .form-control:focus { border-color: var(--primary-blue); }
-    textarea.form-control { height: 100px; resize: vertical; }
+    textarea.form-control { height: 120px; resize: vertical; }
 
     .pill-container { display: flex; flex-wrap: wrap; gap: 6px; }
     .pill {
@@ -180,7 +167,7 @@
     }
     .action-btn:hover { background: #2563eb; }
 
-    /* Published Post Item */
+    /* Post Item in Admin Dashboard with Edit & Delete Buttons */
     .post-item {
       background: #fff;
       padding: 12px;
@@ -190,6 +177,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+    .btn-group { display: flex; gap: 6px; }
+    .edit-btn {
+      background: #fef3c7;
+      color: #d97706;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
     }
     .delete-btn {
       background: #fee2e2;
@@ -222,7 +220,6 @@
   <div id="dashboardScreen">
     <div class="top-navbar">English Box Admin</div>
 
-    <!-- Stacked Navigation Menu (Matching 3rd Pic) -->
     <div class="menu-drawer">
       <button class="menu-item active" id="menuDash" onclick="switchTab('dashboard')">📊 Dashboard</button>
       <button class="menu-item" id="menuAdd" onclick="switchTab('addPost')">📝 Add Post</button>
@@ -232,26 +229,23 @@
 
     <div class="main-container">
       
-      <!-- DASHBOARD TAB CONTENT -->
+      <!-- DASHBOARD TAB -->
       <div id="dashboardTabContent">
         <div class="dashboard-header-box">
           <span style="font-weight: bold; font-size: 16px;">Dashboard Overview</span>
           <button class="logout-btn-small" onclick="logout()">Logout</button>
         </div>
 
-        <!-- Real-time Visitor Box (Green Left Border) -->
         <div class="stat-box">
           <h3>Real-time Visitors</h3>
           <div class="count-num" id="liveVisitors">0</div>
         </div>
 
-        <!-- Total Posts Box (Yellow Left Border) -->
         <div class="stat-box posts-stat">
           <h3>Total Posts</h3>
           <div class="count-num" id="totalPosts">0</div>
         </div>
 
-        <!-- Quick Overview Box -->
         <div class="card">
           <h3 style="font-size: 15px; margin-bottom: 8px;">Quick Overview</h3>
           <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
@@ -259,23 +253,24 @@
           </p>
         </div>
 
-        <!-- Manage / Delete Posts List -->
         <div class="card">
-          <h3 style="font-size: 15px; margin-bottom: 10px;">All Published Posts</h3>
+          <h3 style="font-size: 15px; margin-bottom: 10px;">All Published Posts (Edit & Delete)</h3>
           <div id="postsListContainer">
             <p style="font-size: 13px; color: var(--text-muted);">লোড হচ্ছে...</p>
           </div>
         </div>
       </div>
 
-      <!-- ADD POST TAB CONTENT -->
+      <!-- ADD / EDIT POST TAB -->
       <div id="addPostTabContent" style="display: none;">
         <div class="dashboard-header-box">
-          <span style="font-weight: bold; font-size: 16px;">Create New Post</span>
+          <span style="font-weight: bold; font-size: 16px;" id="formHeaderTitle">Create New Post</span>
           <button class="logout-btn-small" onclick="logout()">Logout</button>
         </div>
 
         <div class="card">
+          <input type="hidden" id="editingPostKey" value="">
+
           <div class="form-group">
             <label>Post Title</label>
             <input type="text" id="postTitle" class="form-control" placeholder="Enter post title...">
@@ -305,7 +300,7 @@
             <textarea id="postContent" class="form-control" placeholder="Write your content here..."></textarea>
           </div>
 
-          <button class="action-btn" onclick="publishPost()">🚀 Publish Post Now</button>
+          <button class="action-btn" id="publishBtnText" onclick="savePost()">🚀 Publish Post Now</button>
         </div>
       </div>
 
@@ -371,6 +366,7 @@
       if (tab === 'dashboard') {
         document.getElementById('dashboardTabContent').style.display = 'block';
         document.getElementById('menuDash').classList.add('active');
+        resetFormState();
       } else if (tab === 'addPost') {
         document.getElementById('addPostTabContent').style.display = 'block';
         document.getElementById('menuAdd').classList.add('active');
@@ -383,7 +379,13 @@
       el.classList.add('selected');
     }
 
-    // Real-time Visitor Tracking via Firebase
+    function setPillByText(containerId, text) {
+      document.getElementById(containerId).querySelectorAll('.pill').forEach(pill => {
+        if (pill.innerText.trim() === text.trim()) pill.classList.add('selected');
+        else pill.classList.remove('selected');
+      });
+    }
+
     function initRealtimeVisitors() {
       const connRef = db.ref('.info/connected');
       const activeRef = db.ref('counter/activeVisitors');
@@ -402,8 +404,9 @@
       });
     }
 
-    // Working Post Publishing System
-    function publishPost() {
+    // Publish or Update Post Function
+    function savePost() {
+      const postId = document.getElementById('editingPostKey').value;
       const title = document.getElementById('postTitle').value.trim();
       const content = document.getElementById('postContent').value.trim();
       const category = document.querySelector('#categoryPills .pill.selected').innerText;
@@ -414,19 +417,36 @@
         return;
       }
 
-      db.ref('posts').push({
-        title, content, category, targetClass, time: Date.now()
-      }).then(() => {
-        alert("পোস্ট সফলভাবে পাবলিশ হয়েছে!");
-        document.getElementById('postTitle').value = "";
-        document.getElementById('postContent').value = "";
-        switchTab('dashboard');
-      }).catch(err => {
-        alert("পাবলিশ করতে সমস্যা হয়েছে: " + err.message);
-      });
+      if (postId) {
+        // Update Existing Post
+        db.ref('posts/' + postId).update({
+          title, content, category, targetClass
+        }).then(() => {
+          alert("পোস্ট সফলভাবে আপডেট করা হয়েছে!");
+          resetFormState();
+          switchTab('dashboard');
+        });
+      } else {
+        // Create New Post
+        db.ref('posts').push({
+          title, content, category, targetClass, time: Date.now()
+        }).then(() => {
+          alert("সফলভাবে নতুন পোস্ট পাবলিশ হয়েছে!");
+          resetFormState();
+          switchTab('dashboard');
+        });
+      }
     }
 
-    // Load and Display Posts Live
+    function resetFormState() {
+      document.getElementById('editingPostKey').value = "";
+      document.getElementById('postTitle').value = "";
+      document.getElementById('postContent').value = "";
+      document.getElementById('formHeaderTitle').innerText = "Create New Post";
+      document.getElementById('publishBtnText').innerText = "🚀 Publish Post Now";
+    }
+
+    // Load Posts & Generate Edit/Delete Options
     function loadPosts() {
       db.ref('posts').on('value', snapshot => {
         const container = document.getElementById('postsListContainer');
@@ -436,7 +456,7 @@
         const data = snapshot.val();
         if (!data) {
           totalPostsEl.innerText = "0";
-          container.innerHTML = "<p style='font-size: 13px; color: var(--text-muted);'>কোনো পোস্ট নেই।</p>";
+          container.innerHTML = "<p style='font-size: 13px; color: var(--text-muted);'>কোনো পোস্ট পাওয়া যায়নি।</p>";
           return;
         }
 
@@ -450,19 +470,34 @@
           div.innerHTML = `
             <div>
               <h4 style="font-size: 14px; margin-bottom: 2px;">${post.title}</h4>
-              <span style="font-size: 11px; color: var(--text-muted);">${post.category} • ${post.targetClass}</span>
+              <span style="font-size: 11px; color: var(--text-muted);">📁 ${post.category} • 🎓 ${post.targetClass}</span>
             </div>
-            <button class="delete-btn" onclick="deletePost('${key}')">Delete</button>
+            <div class="btn-group">
+              <button class="edit-btn" onclick="openEditPost('${key}', '${post.title.replace(/'/g, "\\'")}', '${post.category}', '${post.targetClass}', '${post.content.replace(/'/g, "\\'").replace(/\n/g, '\\n')}')">Edit</button>
+              <button class="delete-btn" onclick="deletePost('${key}')">Delete</button>
+            </div>
           `;
           container.appendChild(div);
         });
       });
     }
 
+    function openEditPost(key, title, category, targetClass, content) {
+      document.getElementById('editingPostKey').value = key;
+      document.getElementById('postTitle').value = title;
+      document.getElementById('postContent').value = content;
+      setPillByText('categoryPills', category);
+      setPillByText('classPills', targetClass);
+      
+      document.getElementById('formHeaderTitle').innerText = "Edit Post";
+      document.getElementById('publishBtnText').innerText = "💾 Update Post";
+      switchTab('addPost');
+    }
+
     function deletePost(key) {
       if (confirm("সত্যিই পোস্টটি ডিলিট করতে চাও?")) {
         db.ref('posts/' + key).remove().then(() => {
-          alert("পোস্ট ডিলিট করা হয়েছে!");
+          alert("পোস্ট সফলভাবে ডিলিট করা হয়েছে!");
         });
       }
     }
