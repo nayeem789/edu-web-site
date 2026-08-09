@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Post</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        /* PASSWORD SCREEN */
+        #loginScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-box {
+            width: 90%;
+            max-width: 420px;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,.12);
+            text-align: center;
+        }
+
+        .password-box h2 {
+            color: #222;
+            margin-bottom: 25px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .password-box input {
+            margin-bottom: 15px;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 14px;
+            background: #168bdc;
+            color: white;
+        }
+
+        #error {
+            color: #e53935;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* ADD POST SCREEN */
+        #postScreen {
+            display: none;
+            padding: 30px 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 710px;
+            margin: auto;
+        }
+
+        .top-box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .top-box h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #222;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            padding: 12px 20px;
+        }
+
+        .form-box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .title-input {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            margin-bottom: 12px;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            padding: 10px 18px;
+            border-radius: 25px;
+            background: #edf2f7;
+            color: #333;
+            cursor: pointer;
+            border: none;
+        }
+
+        .option.active {
+            background: #168bdc;
+            color: white;
+        }
+
+        textarea {
+            min-height: 220px;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        .publish-btn {
+            width: 100%;
+            padding: 15px;
+            background: #168bdc;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PASSWORD -->
+    <div id="loginScreen">
+        <div class="password-box">
+            <h2>🔐 Admin Access</h2>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+            >
+
+            <button class="continue-btn" onclick="checkPassword()">
+                Continue
+            </button>
+
+            <div id="error">
+                Incorrect password
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ADD POST -->
+    <div id="postScreen">
+
+        <div class="container">
+
+            <div class="top-box">
+                <h2>Create New Post</h2>
+
+                <button class="logout-btn" onclick="logout()">
+                    Logout
+                </button>
+            </div>
+
+
+            <div class="form-box">
+
+                <label>Post Title</label>
+
+                <input
+                    class="title-input"
+                    type="text"
+                    id="title"
+                    placeholder="Enter post title..."
+                >
+
+
+                <label class="section-title">
+                    Category
+                </label>
+
+                <div class="options" id="categoryOptions">
+
+                    <button
+                        class="option active"
+                        onclick="selectCategory(this, 'Story')"
+                    >
+                        Story
+                    </button>
+
+                    <button
+                        class="option"
+                        onclick="selectCategory(this, 'Paragraph')"
+                    >
+                        Paragraph
+                    </button>
+
+                    <button
+                        class="option"
+                        onclick="selectCategory(this, 'Composition')"
+                    >
+                        Composition
+                    </button>
+
+                    <button
+                        class="option"
+                        onclick="selectCategory(this, 'Dialogue')"
+                    >
+                        Dialogue
+                    </button>
+
+                </div>
+
+
+                <label class="section-title">
+                    Target Class
+                </label>
+
+                <div class="options" id="classOptions">
+
+                    <button
+                        class="option active"
+                        onclick="selectClass(this, 'Class 7-9')"
+                    >
+                        Class 7-9
+                    </button>
+
+                    <button
+                        class="option"
+                        onclick="selectClass(this, 'SSC')"
+                    >
+                        SSC
+                    </button>
+
+                    <button
+                        class="option"
+                        onclick="selectClass(this, 'HSC')"
+                    >
+                        HSC
+                    </button>
+
+                </div>
+
+
+                <label>Content</label>
+
+                <textarea
+                    id="content"
+                    placeholder="Write your content here..."
+                ></textarea>
+
+
+                <button class="publish-btn" onclick="publishPost()">
+                    🚀 Publish Post Now
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let selectedCategory = "Story";
+        let selectedClass = "Class 7-9";
+
+
+        function checkPassword() {
+
+            const password =
+                document.getElementById("password").value;
+
+            if (password === "9451") {
+
+                document.getElementById("loginScreen").style.display =
+                    "none";
+
+                document.getElementById("postScreen").style.display =
+                    "block";
+
+            } else {
+
+                document.getElementById("error").style.display =
+                    "block";
+            }
+        }
+
+
+        function selectCategory(button, category) {
+
+            document
+                .querySelectorAll("#categoryOptions .option")
+                .forEach(btn => btn.classList.remove("active"));
+
+            button.classList.add("active");
+
+            selectedCategory = category;
+        }
+
+
+        function selectClass(button, className) {
+
+            document
+                .querySelectorAll("#classOptions .option")
+                .forEach(btn => btn.classList.remove("active"));
+
+            button.classList.add("active");
+
+            selectedClass = className;
+        }
+
+
+        function logout() {
+
+            document.getElementById("postScreen").style.display =
+                "none";
+
+            document.getElementById("loginScreen").style.display =
+                "flex";
+
+            document.getElementById("password").value = "";
+        }
+
+
+        function publishPost() {
+
+            alert("Form is working! Firebase connection will be added next.");
+
+        }
+
+    </script>
+
+</body>
+</html>
